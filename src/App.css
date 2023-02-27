@@ -1,38 +1,186 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-header {
+  height: 30px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  font-size: calc(7px + 2vmin);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App-header p {
+  color: rgb(124, 124, 255);
+  cursor: pointer;
+}
+
+.App-header p, .App-header span {
+  margin-right: 10px;
+}
+
+.Body-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  position: relative;
+}
+
+.Body-content {
+  margin-left: 35px;
+}
+
+.Body-content h2 {
+  font-size: calc(10px + 2vmin);
+}
+.Body-content div {
+  font-size: calc(2px + 2vmin);
+}
+
+.Create-container {
+  margin-right: 5vw;    
+  display: flex;
+  justify-content: center;
+  height: 80px;
+  align-items: center;
+}
+
+.Create-button {
+  cursor: pointer;
+  height: 50px;
+  font-size: 2rem;
+  width: 50px;
+  background-color: rgb(62, 226, 62);
+  border-radius: 50%;
+}
+
+.Create-modal-wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.664);
+}
+
+.Create-modal {
+  height: 400px;
+  width: 400px;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.Create-modal h3 {
+  font-size: 1.5rem;
+}
+
+.Tables-container {
+  margin: 20px 0;
+}
+
+.Db-view {
+  margin: 30px 0 10px 10px;
+}
+.Db-name {
+  display: flex;
+  align-items: center;
+  margin: 0 0 10px 0;
+}
+.Db-name p {
+  margin: 0;
+  font-size: calc(5px + 2vmin);
+}
+
+.v-icon-active, .v-icon-inactive {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+.v-icon-active::before {
+  content: "";
+  position: absolute;
+  height: 13px;
+  width: 1px;
+  background-color: white;
+  transform: rotate(30deg) translate(4px, 2px);
+}
+.v-icon-active::after {
+  content: "";
+  position: absolute;
+  height: 13px;
+  width: 1px;
+  background-color: white;
+  transform: rotate(-30deg) translate(-5px, 2px);
+}
+.v-icon-inactive::before {
+  content: "";
+  position: absolute;
+  height: 13px;
+  width: 1px;
+  background-color: white;
+  transform: rotate(-30deg) translate(2px, 2px);
+}
+.v-icon-inactive::after {
+  content: "";
+  position: absolute;
+  height: 13px;
+  width: 1px;
+  background-color: white;
+  transform: rotate(30deg) translate(-3px, 2px);
+}
+
+.Tables-view {
+  padding-left: 15px;
+  position: relative;
+}
+.Tables-view::before {
+  content: '';
+  left: 0;
+  position: absolute;
+  width: 1px;
+  background-color: white;
+  height: -webkit-fill-available;
+}
+
+.Create-tables {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Create-modal-button {
+  cursor: pointer;
+}
+
+.Create-modal-actions {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.Create-modal-cancel {
+  background-color: rgb(255, 124, 124);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.Create-modal-confirm {
+  background-color: rgb(62, 226, 62);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.File-Opener {
+  cursor: pointer;
+}
+
+.Create-error {
+  color: red;
 }

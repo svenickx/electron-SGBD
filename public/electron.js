@@ -1,5 +1,5 @@
 // Module to control the application lifecycle and the native browser window.
-const { app, BrowserWindow, protocol } = require("electron");
+const { app, BrowserWindow, protocol, ipcMain, dialog } = require("electron");
 const path = require("path");
 const url = require("url");
 
@@ -62,6 +62,17 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
+
+    ipcMain.on("dialog", () => {
+      dialog
+        .showOpenDialog({ properties: ["openFile"] })
+        .then((result) => {
+          console.log(result.filePaths);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
   });
 });
 
