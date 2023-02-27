@@ -1,0 +1,17 @@
+.App-header {
+  height: 30px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  font-size: calc(7px + 2vmin);
+}
+
+.App-header p {
+  color: rgb(124, 124, 255);
+  cursor: pointer;
+}
+
+.App-header p,
+.App-header span {
+  margin-right: 10px;
+}

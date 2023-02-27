@@ -7,9 +7,13 @@ const { contextBridge, ipcRenderer } = require("electron");
 // They'll be accessible at "window.versions".
 process.once("loaded", () => {
   contextBridge.exposeInMainWorld("versions", process.versions);
-  contextBridge.exposeInMainWorld("dialog", {
-    openDialog() {
-      ipcRenderer.send("dialog");
+  contextBridge.exposeInMainWorld("DB", {
+    getDB() {
+      ipcRenderer.send("readDB", "C:\\Applications\\db.json");
+      ipcRenderer.on("readDBdone", (event, data) => {
+        console.log(data);
+        return data;
+      });
     },
   });
 });

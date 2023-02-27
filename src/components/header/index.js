@@ -1,7 +1,10 @@
+import { Link } from "react-router-dom";
+import "./header.css";
+
 const Header = ({ db, table }) => {
   return (
     <header className="App-header">
-      <p>Databases</p>
+      <Link to="/">Databases</Link>
       <span>&gt;</span>
       {db ? (
         <>

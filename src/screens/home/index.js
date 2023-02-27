@@ -1,12 +1,15 @@
-import { useState } from "react";
-import "./App.css";
-import Header from "./components/header";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Header from "../../components/header";
+import CreateDB from "../../components/modals/createDB";
+import "./home.css";
 
-function App() {
+function Home() {
   const [createWindowOpen, setCreateWindowOpen] = useState(false);
   const [newDBName, setNewDBName] = useState("");
   const [newDbTables, setNewDbTables] = useState([{}]);
   const [error, setError] = useState(null);
+  const [readDBdone, setReadDBdone] = useState(false);
 
   const [fakeDBs, setFakeDBs] = useState([
     {
@@ -17,7 +20,7 @@ function App() {
         { name: "table3" },
         { name: "table4" },
       ],
-      isVisible: true,
+      isVisible: false,
     },
     {
       name: "DB2",
@@ -73,76 +76,25 @@ function App() {
     );
   };
 
+  useEffect(() => {
+    if (!readDBdone) {
+      const db = window.DB.getDB();
+      console.log(db);
+      // setFakeDBs(db);
+    }
+    setReadDBdone(true);
+  }, [readDBdone]);
+
   return (
     <div className="App">
       {createWindowOpen ? (
-        <div className="Create-modal-wrapper">
-          <div className="Create-modal">
-            <h3>Create a new database</h3>
-            <div>
-              <div>
-                <label>Name</label>
-                <input
-                  type="text"
-                  onChange={(event) => setNewDBName(event.target.value)}
-                />
-              </div>
-              <div className="Tables-container">
-                <label>Tables</label>
-                <div className="Create-tables">
-                  {newDbTables.map((_, index) => {
-                    return (
-                      <div key={index}>
-                        <input
-                          placeholder={`New table ${index}`}
-                          onChange={(event) =>
-                            (newDbTables[index] = { name: event.target.value })
-                          }
-                        />
-                        {newDbTables.length > 1 ? (
-                          <button
-                            onClick={() => {
-                              let newTables = [...newDbTables];
-                              newTables.splice(index, 1);
-                              setNewDbTables(newTables);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-                <button
-                  className="Create-modal-button"
-                  onClick={() => setNewDbTables([...newDbTables, {}])}
-                >
-                  Add a field
-                </button>
-              </div>
-            </div>
-            <div className="Create-modal-actions">
-              <button
-                onClick={() => setCreateWindowOpen(false)}
-                className="Create-modal-cancel"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  createDB();
-                  setCreateWindowOpen(false);
-                }}
-                className="Create-modal-confirm"
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
+        <CreateDB
+          createDB={createDB}
+          newDbTables={newDbTables}
+          setCreateWindowOpen={setCreateWindowOpen}
+          setNewDBName={setNewDBName}
+          setNewDbTables={setNewDbTables}
+        />
       ) : (
         ""
       )}
@@ -160,7 +112,7 @@ function App() {
                       db.isVisible ? "v-icon-active" : "v-icon-inactive"
                     }`}
                   ></div>
-                  <p>{db.name}</p>
+                  <Link to={`/tables/${db.name}`}>{db.name}</Link>
                 </div>
                 <div className="Tables-view">
                   {db.isVisible
@@ -187,16 +139,4 @@ function App() {
   );
 }
 
-export default App;
-
-{
-  /* <header className="App-header">
-        <button
-          className="File-Opener"
-          onClick={window.dialog.openDialog()}
-          title="Choose file"
-        >
-          Sélectionner un fichier
-        </button>
-      </header> */
-}
+export default Home;

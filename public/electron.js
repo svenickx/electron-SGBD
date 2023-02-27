@@ -2,12 +2,13 @@
 const { app, BrowserWindow, protocol, ipcMain, dialog } = require("electron");
 const path = require("path");
 const url = require("url");
+const fs = require("fs");
 
 // Create the native browser window.
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     // Set the path of an additional "preload" script that can be used to
     // communicate between node-land and browser-land.
     webPreferences: {
@@ -62,19 +63,32 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
+  });
 
-    ipcMain.on("dialog", () => {
-      dialog
-        .showOpenDialog({ properties: ["openFile"] })
-        .then((result) => {
-          console.log(result.filePaths);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
+  ipcMain.on("readDB", async (event, chemin) => {
+    await readFile(chemin)
+      .then((data) => {
+        console.log("handle: " + data);
+        event.reply("readDBdone", JSON.parse(data));
+      })
+      .catch((error) => {
+        console.log("handle error: " + error);
+      });
   });
 });
+
+function readFile(path) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, "utf-8", (error, data) => {
+      if (error) {
+        console.log("reject: " + error);
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
 
 // Quit when all windows are closed, except on macOS.
 // There, it's common for applications and their menu bar to stay active until

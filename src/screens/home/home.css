@@ -4,23 +4,6 @@
   color: white;
 }
 
-.App-header {
-  height: 30px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  font-size: calc(7px + 2vmin);
-}
-
-.App-header p {
-  color: rgb(124, 124, 255);
-  cursor: pointer;
-}
-
-.App-header p, .App-header span {
-  margin-right: 10px;
-}
-
 .Body-wrapper {
   display: flex;
   justify-content: space-between;
@@ -40,7 +23,7 @@
 }
 
 .Create-container {
-  margin-right: 5vw;    
+  margin-right: 5vw;
   display: flex;
   justify-content: center;
   height: 80px;
@@ -54,31 +37,6 @@
   width: 50px;
   background-color: rgb(62, 226, 62);
   border-radius: 50%;
-}
-
-.Create-modal-wrapper {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.664);
-}
-
-.Create-modal {
-  height: 400px;
-  width: 400px;
-  border-radius: 5px;
-  background-color: white;
-  color: black;
-  text-align: center;
-  overflow-y: auto;
-}
-
-.Create-modal h3 {
-  font-size: 1.5rem;
 }
 
 .Tables-container {
@@ -98,7 +56,8 @@
   font-size: calc(5px + 2vmin);
 }
 
-.v-icon-active, .v-icon-inactive {
+.v-icon-active,
+.v-icon-inactive {
   height: 20px;
   width: 20px;
   cursor: pointer;
@@ -141,40 +100,12 @@
   position: relative;
 }
 .Tables-view::before {
-  content: '';
+  content: "";
   left: 0;
   position: absolute;
   width: 1px;
   background-color: white;
   height: -webkit-fill-available;
-}
-
-.Create-tables {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.Create-modal-button {
-  cursor: pointer;
-}
-
-.Create-modal-actions {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.Create-modal-cancel {
-  background-color: rgb(255, 124, 124);
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.Create-modal-confirm {
-  background-color: rgb(62, 226, 62);
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .File-Opener {
