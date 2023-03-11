@@ -6,21 +6,17 @@ const Header = ({ db, table }) => {
     <header className="App-header">
       <Link to="/">Databases</Link>
       <span>&gt;</span>
-      {db ? (
+      {db && (
         <>
-          <p>{db}</p>
+          <Link to={`/tables/${db}`}>{db}</Link>
           <span>&gt;</span>
-          {table ? (
+          {table && (
             <>
-              <p>{table}</p>
+              <Link to={`/dataTable/${db}/${table}`}>{table}</Link>
               <span>&gt;</span>
             </>
-          ) : (
-            ""
           )}
         </>
-      ) : (
-        ""
       )}
     </header>
   );

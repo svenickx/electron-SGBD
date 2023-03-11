@@ -1,0 +1,41 @@
+.App {
+  background-color: #282c34;
+  min-height: 100vh;
+  color: white;
+}
+
+.Body-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  position: relative;
+}
+
+.Body-content {
+  margin-left: 35px;
+}
+
+.Table-container {
+  max-width: 75vw;
+  overflow-x: auto;
+}
+table {
+  padding: 10px;
+  border-collapse: collapse;
+}
+th,
+td {
+  border: 1px solid white;
+  padding: 8px;
+}
+td {
+  overflow: auto;
+}
+tr {
+  margin: 10px 0;
+}
+
+.resizeable {
+  resize: horizontal;
+  overflow: auto;
+}
