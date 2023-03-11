@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import DialogButton from "../../components/dialogButton";
-import "./home.css";
 import { useNavigate } from "react-router-dom";
+import { App } from "../../style";
+import { HomeContainer } from "./style";
 
 function Home() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ function Home() {
     if (window.path.getPath() !== "") {
       setPath(window.path.getPath());
     }
-    if (path !== "" && path !== "undefined\\db.json") {
+    if (path && path !== "" && path !== "undefined\\db.json") {
       setIsPathSet(true);
     }
   }, [path]);
@@ -29,10 +30,12 @@ function Home() {
   }, [isPathSet, navigate]);
 
   return (
-    <div>
-      <p>Please Select a folder of the database</p>
-      <DialogButton onClick={openDialog} />
-    </div>
+    <App>
+      <HomeContainer>
+        <p>Please select the folder of the databases</p>
+        <DialogButton onClick={openDialog} />
+      </HomeContainer>
+    </App>
   );
 }
 

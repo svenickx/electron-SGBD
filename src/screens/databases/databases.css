@@ -1,69 +1,5 @@
-.App {
-  background-color: #282c34;
-  min-height: 100vh;
-  color: white;
-}
-
-.Body-wrapper {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  position: relative;
-}
-
-.Body-content {
-  margin-left: 35px;
-}
-
-.Body-content h2 {
-  font-size: calc(10px + 2vmin);
-}
-.Body-content div {
-  font-size: calc(2px + 2vmin);
-}
-
-.Settings-container {
-  margin-right: 5vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 210px;
-  align-items: center;
-}
-
-.Setting-btn {
-  cursor: pointer;
-  height: 50px;
-  font-size: 2rem;
-  width: 50px;
-  border-radius: 50%;
-  margin: 10px;
-}
-.Create-btn {
-  background-color: rgb(62, 226, 62);
-}
-.Edit-btn {
-  background-color: orange;
-}
-.Leave-btn {
-  background-color: red;
-}
-
 .Tables-container {
   margin: 20px 0;
-}
-
-.Db-view {
-  margin: 30px 0 10px 10px;
-}
-.Db-name {
-  display: flex;
-  align-items: center;
-  margin: 0 0 10px 0;
-}
-.Db-name p {
-  margin: 0;
-  font-size: calc(5px + 2vmin);
 }
 
 .v-icon-active,
@@ -120,8 +56,4 @@
 
 .File-Opener {
   cursor: pointer;
-}
-
-.Create-error {
-  color: red;
 }

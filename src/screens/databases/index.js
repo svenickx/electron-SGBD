@@ -4,6 +4,9 @@ import Header from "../../components/header";
 import CreateDB from "../../components/modals/createDB";
 import "./databases.css";
 import { useNavigate } from "react-router-dom";
+import { DbName, ErrorText, Title } from "./style";
+import Settings from "../../components/settings";
+import { App, BodyWrapper, DbView, BodyContent } from "../../style";
 const uuid = require("uuid");
 
 function Databases() {
@@ -70,7 +73,7 @@ function Databases() {
   }, [isLoadingDatabases, isPathSet]);
 
   return (
-    <div className="App">
+    <App>
       {createWindowOpen && (
         <CreateDB
           createDB={createDB}
@@ -79,13 +82,13 @@ function Databases() {
         />
       )}
       <Header />
-      <div className="Body-wrapper">
-        <div className="Body-content">
-          <h2>Your databases</h2>
+      <BodyWrapper>
+        <BodyContent>
+          <Title>Your databases</Title>
           {Databases.map((db) => {
             return (
-              <div className="Db-view" key={db.name}>
-                <div className="Db-name">
+              <DbView key={db.name}>
+                <DbName>
                   <div
                     onClick={() => toggleTablesView(db)}
                     className={`${
@@ -93,7 +96,7 @@ function Databases() {
                     }`}
                   ></div>
                   <Link to={`/tables/${db.name}`}>{db.name}</Link>
-                </div>
+                </DbName>
                 <div className="Tables-view">
                   {db.isVisible &&
                     db.tables &&
@@ -101,33 +104,19 @@ function Databases() {
                       return <div key={table.name}>{table.name}</div>;
                     })}
                 </div>
-              </div>
+              </DbView>
             );
           })}
-          {error !== null && <p className="Create-error">{error}</p>}
-        </div>
-        <div className="Settings-container">
-          <button
-            onClick={() => setCreateWindowOpen(true)}
-            className="Setting-btn Create-btn"
-          >
-            +
-          </button>
-          <button onClick={() => {}} className="Setting-btn Edit-btn">
-            O
-          </button>
-          <button
-            onClick={() => {
-              window.DB.closeDB();
-              navigate("/");
-            }}
-            className="Setting-btn Leave-btn"
-          >
-            P
-          </button>
-        </div>
-      </div>
-    </div>
+          {error !== null && <ErrorText>{error}</ErrorText>}
+        </BodyContent>
+        <Settings
+          isCreateEnable={true}
+          setCreateWindowOpen={setCreateWindowOpen}
+          isEditEnable={true}
+          isLeaveEnable={true}
+        />
+      </BodyWrapper>
+    </App>
   );
 }
 

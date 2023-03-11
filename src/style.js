@@ -1,20 +1,22 @@
-.App {
+import styled from "styled-components";
+
+export const App = styled.div`
   background-color: #282c34;
   min-height: 100vh;
   color: white;
-}
+`;
 
-.Body-wrapper {
+export const BodyWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 10px;
   position: relative;
-}
+`;
 
-.Body-content {
+export const BodyContent = styled.div`
   margin-left: 35px;
-}
+`;
 
-.Db-view {
+export const DbView = styled.div`
   margin: 30px 0 10px 10px;
-}
+`;

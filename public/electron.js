@@ -124,6 +124,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on("openDB", async (event, path, database) => {
+    console.log(path);
     await readFile(path)
       .then((data) => {
         const databases = JSON.parse(data);

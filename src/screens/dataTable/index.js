@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/header";
 import AddData from "../../components/modals/addData";
-import "./dataTable.css";
+import { App, BodyWrapper, BodyContent } from "../../style";
+import { Resizeable, Table, TableData, TableHeader, TableRow } from "./style";
+import Settings from "../../components/settings";
 const uuid = require("uuid");
 
 const DataTable = () => {
@@ -15,6 +17,7 @@ const DataTable = () => {
   const [createWindowOpen, setCreateWindowOpen] = useState(false);
   const [newData, setNewData] = useState({});
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const createNewData = (key, value) => {
     const data = {};
@@ -37,6 +40,9 @@ const DataTable = () => {
   };
 
   useEffect(() => {
+    if (window.path.getPath() === "") {
+      navigate("/databases");
+    }
     if (!loadTableDone) {
       window.DB.openTable(
         setTable,
@@ -75,7 +81,7 @@ const DataTable = () => {
   }, [data]);
 
   return (
-    <div className="App">
+    <App>
       {createWindowOpen && (
         <AddData
           setCreateWindowOpen={setCreateWindowOpen}
@@ -85,50 +91,46 @@ const DataTable = () => {
         />
       )}
       <Header db={table.dbName} table={tableName} />
-      <div className="Body-wrapper">
-        <div className="Body-content">
+      <BodyWrapper>
+        <BodyContent>
           <h2>DATA</h2>
           <div className="Table-container">
-            <table>
+            <Table>
               <thead>
-                <tr>
+                <TableRow>
                   {keys.map((k, i) => {
                     return (
-                      <th style={{ margin: 5 }} key={i}>
-                        <div className="resizeable">{k}</div>
-                      </th>
+                      <TableHeader style={{ margin: 5 }} key={i}>
+                        <Resizeable>{k}</Resizeable>
+                      </TableHeader>
                     );
                   })}
-                </tr>
+                </TableRow>
               </thead>
               <tbody>
                 {data.map((d) => {
                   return (
-                    <tr key={d.id}>
+                    <TableRow key={d.id}>
                       {keys.map((k, i) => {
                         return (
-                          <td key={i}>
+                          <TableData key={i}>
                             <div>{d[k] ? d[k] : <i>null</i>}</div>
-                          </td>
+                          </TableData>
                         );
                       })}
-                    </tr>
+                    </TableRow>
                   );
                 })}
               </tbody>
-            </table>
+            </Table>
           </div>
-        </div>
-        <div className="Create-container">
-          <button
-            onClick={() => setCreateWindowOpen(true)}
-            className="Create-button"
-          >
-            +
-          </button>
-        </div>
-      </div>
-    </div>
+        </BodyContent>
+        <Settings
+          isCreateEnable={true}
+          setCreateWindowOpen={setCreateWindowOpen}
+        />
+      </BodyWrapper>
+    </App>
   );
 };
 

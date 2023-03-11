@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/header";
 import CreateTable from "../../components/modals/createTable";
-import "./tables.css";
+import Settings from "../../components/settings";
+import { App, BodyWrapper, BodyContent, DbView } from "../../style";
 
 const Tables = () => {
   let { db } = useParams();
@@ -10,6 +11,7 @@ const Tables = () => {
   const [createWindowOpen, setCreateWindowOpen] = useState(false);
   const [loadDBdone, setLoadDBdone] = useState(false);
   const [newTableName, setNewTableName] = useState("");
+  const navigate = useNavigate();
 
   const createTable = () => {
     if (newTableName === "") {
@@ -26,6 +28,9 @@ const Tables = () => {
   };
 
   useEffect(() => {
+    if (window.path.getPath() === "") {
+      navigate("/databases");
+    }
     if (!loadDBdone) {
       window.DB.openDB(setDB, `${window.path.getPath()}\\db.json`, db);
       setLoadDBdone(true);
@@ -33,7 +38,7 @@ const Tables = () => {
   }, []);
 
   return (
-    <div className="App">
+    <App>
       {createWindowOpen && (
         <CreateTable
           setData={setNewTableName}
@@ -42,29 +47,25 @@ const Tables = () => {
         />
       )}
       <Header db={db} />
-      <div className="Body-wrapper">
-        <div className="Body-content">
+      <BodyWrapper>
+        <BodyContent>
           <h2>Tables</h2>
           {DB.tables &&
             DB.tables.map((t) => {
               return (
-                <div key={t.name} className="Db-view">
+                <DbView key={t.name}>
                   <Link to={`/dataTable/${db}/${t.name}`}>{t.name}</Link>
-                </div>
+                </DbView>
               );
             })}
           <div className="Db-view"></div>
-        </div>
-        <div className="Create-container">
-          <button
-            onClick={() => setCreateWindowOpen(true)}
-            className="Create-button"
-          >
-            +
-          </button>
-        </div>
-      </div>
-    </div>
+        </BodyContent>
+        <Settings
+          isCreateEnable={true}
+          setCreateWindowOpen={setCreateWindowOpen}
+        />
+      </BodyWrapper>
+    </App>
   );
 };
 
