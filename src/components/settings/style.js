@@ -5,8 +5,11 @@ export const SettingsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 210px;
+  min-height: 210px;
   align-items: center;
+  position: fixed;
+  top: 8vh;
+  right: 0;
 `;
 
 export const CreateButton = styled.button`
@@ -17,6 +20,9 @@ export const CreateButton = styled.button`
   width: 50px;
   border-radius: 50%;
   margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const EditButton = styled.button`
@@ -27,6 +33,9 @@ export const EditButton = styled.button`
   width: 50px;
   border-radius: 50%;
   margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const LeaveButton = styled.button`
@@ -37,4 +46,33 @@ export const LeaveButton = styled.button`
   width: 50px;
   border-radius: 50%;
   margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ExportButton = styled.button`
+  background-color: #bbbbff;
+  cursor: pointer;
+  height: 50px;
+  font-size: 2rem;
+  width: 50px;
+  border-radius: 50%;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ImportButton = styled.button`
+  background-color: pink;
+  cursor: pointer;
+  height: 50px;
+  font-size: 2rem;
+  width: 50px;
+  border-radius: 50%;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

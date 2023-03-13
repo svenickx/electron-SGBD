@@ -1,18 +1,25 @@
 import { useState } from "react";
-import "./addData.css";
+import {
+  Actions,
+  Cancel,
+  Confirm,
+  CreateModal,
+  ModalWrapper,
+  Title,
+} from "../style";
 
 const AddData = ({ setCreateWindowOpen, addData, keys, setNewData }) => {
   const [newFieldName, setNewFieldName] = useState("");
   const [newFields, setNewFields] = useState([]);
 
   return (
-    <div className="Create-modal-wrapper">
-      <div className="Create-modal">
-        <h3>Add data</h3>
+    <ModalWrapper>
+      <CreateModal>
+        <Title>Add data</Title>
         <div>
           <div>
             {keys.map((ele, i) => {
-              if (ele === "id") return "";
+              if (ele === "_id") return "";
               return (
                 <div key={i}>
                   <label htmlFor={ele}>{ele}</label>
@@ -51,25 +58,19 @@ const AddData = ({ setCreateWindowOpen, addData, keys, setNewData }) => {
             Add a field
           </button>
         </div>
-        <div className="Create-modal-actions">
-          <button
-            onClick={() => setCreateWindowOpen(false)}
-            className="Create-modal-cancel"
-          >
-            Cancel
-          </button>
-          <button
+        <Actions>
+          <Cancel onClick={() => setCreateWindowOpen(false)}>Cancel</Cancel>
+          <Confirm
             onClick={() => {
               addData();
               setCreateWindowOpen(false);
             }}
-            className="Create-modal-confirm"
           >
             Confirm
-          </button>
-        </div>
-      </div>
-    </div>
+          </Confirm>
+        </Actions>
+      </CreateModal>
+    </ModalWrapper>
   );
 };
 

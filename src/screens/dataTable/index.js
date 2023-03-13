@@ -3,8 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/header";
 import AddData from "../../components/modals/addData";
 import { App, BodyWrapper, BodyContent } from "../../style";
-import { Resizeable, Table, TableData, TableHeader, TableRow } from "./style";
 import Settings from "../../components/settings";
+import ImportFile from "../../components/modals/importFile";
+import ExportFile from "../../components/modals/exportData";
+import { Title } from "../../components/modals/style";
+import Table from "../../components/table";
 const uuid = require("uuid");
 
 const DataTable = () => {
@@ -14,10 +17,21 @@ const DataTable = () => {
   const [data, setData] = useState([]);
   const [loadDataDone, setLoadDataDone] = useState(false);
   const [keys, setKeys] = useState([]);
-  const [createWindowOpen, setCreateWindowOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditActive, setIsEditActive] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [newData, setNewData] = useState({});
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const confirmEdit = () => {
+    window.DB.editData(
+      `${window.path.getPath()}\\data.json`,
+      data,
+      dbName,
+      tableName
+    );
+  };
 
   const createNewData = (key, value) => {
     const data = {};
@@ -30,13 +44,23 @@ const DataTable = () => {
       setData,
       `${window.path.getPath()}\\data.json`,
       {
-        id: uuid.v4(),
+        _id: uuid.v4(),
         ...newData,
       },
       dbName,
       tableName
     );
     setNewData({});
+  };
+
+  const deleteData = (id) => {
+    window.DB.deleteData(
+      setData,
+      `${window.path.getPath()}\\data.json`,
+      id,
+      dbName,
+      tableName
+    );
   };
 
   useEffect(() => {
@@ -82,52 +106,47 @@ const DataTable = () => {
 
   return (
     <App>
-      {createWindowOpen && (
+      {isCreateModalOpen && (
         <AddData
-          setCreateWindowOpen={setCreateWindowOpen}
+          setCreateWindowOpen={setIsCreateModalOpen}
           addData={addData}
           keys={keys}
           setNewData={createNewData}
         />
       )}
+      {isImportModalOpen && (
+        <ImportFile
+          setWindowOpen={setIsImportModalOpen}
+          dbName={dbName}
+          tableName={tableName}
+          setData={setData}
+        />
+      )}
+      {isExportModalOpen && (
+        <ExportFile dataToExport={data} setWindowOpen={setIsExportModalOpen} />
+      )}
       <Header db={table.dbName} table={tableName} />
       <BodyWrapper>
         <BodyContent>
-          <h2>DATA</h2>
-          <div className="Table-container">
-            <Table>
-              <thead>
-                <TableRow>
-                  {keys.map((k, i) => {
-                    return (
-                      <TableHeader style={{ margin: 5 }} key={i}>
-                        <Resizeable>{k}</Resizeable>
-                      </TableHeader>
-                    );
-                  })}
-                </TableRow>
-              </thead>
-              <tbody>
-                {data.map((d) => {
-                  return (
-                    <TableRow key={d.id}>
-                      {keys.map((k, i) => {
-                        return (
-                          <TableData key={i}>
-                            <div>{d[k] ? d[k] : <i>null</i>}</div>
-                          </TableData>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-              </tbody>
-            </Table>
-          </div>
+          <Title>DATA</Title>
+          <Table
+            data={data}
+            keys={keys}
+            setData={setData}
+            isEditMode={isEditActive}
+            deleteData={deleteData}
+          />
         </BodyContent>
         <Settings
           isCreateEnable={true}
-          setCreateWindowOpen={setCreateWindowOpen}
+          setCreateWindowOpen={setIsCreateModalOpen}
+          isEditEnable={true}
+          setEditActive={setIsEditActive}
+          isEditActive={isEditActive}
+          setImportFileOpen={setIsImportModalOpen}
+          setExportFileOpen={setIsExportModalOpen}
+          isDataScreen={true}
+          confirmEdit={confirmEdit}
         />
       </BodyWrapper>
     </App>

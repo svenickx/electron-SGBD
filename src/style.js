@@ -20,3 +20,7 @@ export const BodyContent = styled.div`
 export const DbView = styled.div`
   margin: 30px 0 10px 10px;
 `;
+
+export const TableRow = styled.tr`
+  margin: 10px 0;
+`;

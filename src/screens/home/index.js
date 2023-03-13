@@ -11,7 +11,7 @@ function Home() {
 
   const openDialog = () => {
     window.dialog.open();
-    window.dialog.setFilePath(setPath);
+    window.dialog.setFilePath(setPath, true);
   };
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function Home() {
     <App>
       <HomeContainer>
         <p>Please select the folder of the databases</p>
-        <DialogButton onClick={openDialog} />
+        <DialogButton onClick={openDialog} title="Select folder" />
       </HomeContainer>
     </App>
   );

@@ -3,12 +3,15 @@ const { app, BrowserWindow, protocol, ipcMain, dialog } = require("electron");
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
+const uuid = require("uuid");
 
 // Create the native browser window.
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: 1700,
+    height: 900,
+    minWidth: 800,
+    minHeight: 600,
     // Set the path of an additional "preload" script that can be used to
     // communicate between node-land and browser-land.
     webPreferences: {
@@ -32,6 +35,37 @@ function createWindow() {
           fs.writeFileSync(`${result.filePaths[0]}\\data.json`, "[]");
         }
         event.reply("selected-folder", result.filePaths[0]);
+      })
+      .catch((err) => {
+        console.error(err);
+        dialog.showErrorBox("Error", "Something went wrong");
+      });
+  });
+
+  ipcMain.on("import-file", (event, path, dbName, tableName) => {
+    dialog
+      .showOpenDialog(mainWindow, {
+        properties: ["openFile"],
+        filters: [{ name: "JSON", extensions: ["json"] }],
+      })
+      .then((result) => {
+        readFile(result.filePaths[0])
+          .then((res) => {
+            const newData = JSON.parse(res);
+            newData.forEach((d) => {
+              d._id = uuid.v4();
+            });
+            addMultipleData(path, newData, dbName, tableName)
+              .then((data) => {
+                event.reply("addMultipleDataDone", data);
+              })
+              .catch((error) => {
+                console.error("handle error: " + error);
+              });
+          })
+          .catch((error) => {
+            console.error("handle error: " + error);
+          });
       })
       .catch((err) => {
         console.error(err);
@@ -124,7 +158,6 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on("openDB", async (event, path, database) => {
-    console.log(path);
     await readFile(path)
       .then((data) => {
         const databases = JSON.parse(data);
@@ -180,6 +213,34 @@ app.whenReady().then(() => {
     await addData(path, data, dbName, tableName)
       .then((data) => {
         event.reply("addDataDone", data);
+      })
+      .catch((error) => {
+        console.error("handle error: " + error);
+      });
+  });
+
+  ipcMain.on("editData", async (event, path, data, dbName, tableName) => {
+    await editData(path, data, dbName, tableName)
+      .then(() => {})
+      .catch((error) => {
+        console.error("handle error: " + error);
+      });
+  });
+
+  ipcMain.on("deleteData", async (event, path, id, dbName, tableName) => {
+    await deleteData(path, id, dbName, tableName)
+      .then((data) => {
+        event.reply("deleteDataDone", data);
+      })
+      .catch((error) => {
+        console.error("handle error: " + error);
+      });
+  });
+
+  ipcMain.on("exportFile", async (event, path, dataToExport) => {
+    await exportFile(path, dataToExport)
+      .then(() => {
+        event.reply("exportFileDone");
       })
       .catch((error) => {
         console.error("handle error: " + error);
@@ -243,6 +304,66 @@ function addData(path, data, dbName, tableName) {
         d.values.push(data);
         fs.writeFile(path, JSON.stringify(resJson), (err) => {
           if (err) {
+            console.error(err);
+          }
+          resolve(d.values);
+        });
+      })
+      .catch((err) => console.error(err));
+  });
+}
+
+function editData(path, data, dbName, tableName) {
+  return new Promise((resolve, reject) => {
+    readFile(path)
+      .then((res) => {
+        const resJson = JSON.parse(res);
+        const d = resJson.find(
+          (d) => d.dbName === dbName && d.tableName === tableName
+        );
+        d.values = data;
+        fs.writeFile(path, JSON.stringify(resJson), (err) => {
+          if (err) {
+            console.error(err);
+          }
+          resolve(d.values);
+        });
+      })
+      .catch((err) => console.error(err));
+  });
+}
+
+function deleteData(path, id, dbName, tableName) {
+  return new Promise((resolve, reject) => {
+    readFile(path)
+      .then((res) => {
+        const resJson = JSON.parse(res);
+        const d = resJson.find(
+          (d) => d.dbName === dbName && d.tableName === tableName
+        );
+        d.values = d.values.filter((v) => v._id !== id);
+        fs.writeFile(path, JSON.stringify(resJson), (err) => {
+          if (err) {
+            console.error(err);
+          }
+          resolve(d.values);
+        });
+      })
+      .catch((err) => console.error(err));
+  });
+}
+
+function addMultipleData(path, data, dbName, tableName) {
+  return new Promise((resolve, reject) => {
+    readFile(path)
+      .then((res) => {
+        const resJson = JSON.parse(res);
+        const d = resJson.find(
+          (d) => d.dbName === dbName && d.tableName === tableName
+        );
+        d.values.push(...data);
+        fs.writeFile(path, JSON.stringify(resJson), (err) => {
+          if (err) {
             console.error(d.values);
           }
           resolve(d.values);
@@ -261,6 +382,17 @@ function readFile(path) {
       } else {
         resolve(data);
       }
+    });
+  });
+}
+
+function exportFile(path, dataToExport) {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(path, JSON.stringify(dataToExport), (err) => {
+      if (err) {
+        console.error(err);
+      }
+      resolve(dataToExport);
     });
   });
 }

@@ -1,39 +1,42 @@
-import "./createTable.css";
+import {
+  Actions,
+  Body,
+  Cancel,
+  Confirm,
+  CreateModal,
+  ModalWrapper,
+  Title,
+} from "../style";
 
 const CreateTable = ({ setData, addData, setCreateWindowOpen }) => {
   return (
-    <div className="Create-modal-wrapper">
-      <div className="Create-modal">
-        <h3>Add a table</h3>
+    <ModalWrapper>
+      <CreateModal>
+        <Title>Add a table</Title>
         <div>
-          <div></div>
-          <label>Name</label>
-          <input
-            type="text"
-            onChange={(event) => {
-              setData(event.target.value);
-            }}
-          />
+          <Body>
+            <label>Name</label>
+            <input
+              type="text"
+              onChange={(event) => {
+                setData(event.target.value);
+              }}
+            />
+          </Body>
         </div>
-        <div className="Create-modal-actions">
-          <button
-            onClick={() => setCreateWindowOpen(false)}
-            className="Create-modal-cancel"
-          >
-            Cancel
-          </button>
-          <button
+        <Actions>
+          <Cancel onClick={() => setCreateWindowOpen(false)}>Cancel</Cancel>
+          <Confirm
             onClick={() => {
               addData();
               setCreateWindowOpen(false);
             }}
-            className="Create-modal-confirm"
           >
             Confirm
-          </button>
-        </div>
-      </div>
-    </div>
+          </Confirm>
+        </Actions>
+      </CreateModal>
+    </ModalWrapper>
   );
 };
 

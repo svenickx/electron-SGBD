@@ -1,4 +1,6 @@
-.Create-modal-wrapper {
+import styled from "styled-components";
+
+export const ModalWrapper = styled.div`
   position: absolute;
   display: flex;
   justify-content: center;
@@ -7,46 +9,47 @@
   width: 100vw;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.664);
-}
+`;
 
-.Create-modal {
-  height: 400px;
-  width: 400px;
+export const CreateModal = styled.div`
+  padding: 40px;
   border-radius: 5px;
   background-color: white;
   color: black;
   text-align: center;
   overflow-y: auto;
-}
-
-.Create-modal h3 {
-  font-size: 1.5rem;
-}
-
-.Create-tables {
   display: flex;
-  align-items: center;
+  justify-content: center;
   flex-direction: column;
-}
+`;
 
-.Create-modal-button {
-  cursor: pointer;
-}
+export const Title = styled.div`
+  font-size: 1.5rem;
+  margin: 0 0 30px 0;
+`;
 
-.Create-modal-actions {
+export const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Actions = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-}
+  margin: 30px 0 0 0;
+`;
 
-.Create-modal-cancel {
+export const Cancel = styled.div`
   background-color: rgb(255, 124, 124);
   border-radius: 4px;
   cursor: pointer;
-}
+  padding: 5px 10px;
+`;
 
-.Create-modal-confirm {
+export const Confirm = styled.div`
   background-color: rgb(62, 226, 62);
   border-radius: 4px;
   cursor: pointer;
-}
+  padding: 5px 10px;
+`;

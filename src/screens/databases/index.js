@@ -112,7 +112,6 @@ function Databases() {
         <Settings
           isCreateEnable={true}
           setCreateWindowOpen={setCreateWindowOpen}
-          isEditEnable={true}
           isLeaveEnable={true}
         />
       </BodyWrapper>

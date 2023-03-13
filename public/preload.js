@@ -18,11 +18,32 @@ process.once("loaded", () => {
     open: () => {
       ipcRenderer.send("open-file-dialog");
     },
-    setFilePath: (setPath) => {
+    setFilePath: (setPath, changeFolderPath) => {
       ipcRenderer.on("selected-folder", (event, path) => {
-        folderPath = path;
+        if (changeFolderPath) {
+          folderPath = path;
+        }
         setPath(path);
       });
+    },
+    removeEventListener: () => {
+      ipcRenderer.removeAllListeners("selected-folder");
+    },
+  });
+  contextBridge.exposeInMainWorld("importFile", {
+    import: (path, dbName, tableName, setState) => {
+      ipcRenderer.send("import-file", path, dbName, tableName);
+      ipcRenderer.on("addMultipleDataDone", (event, data) => {
+        setState(data);
+      });
+    },
+    removeEventListener: () => {
+      ipcRenderer.removeAllListeners("selected-folder");
+    },
+  });
+  contextBridge.exposeInMainWorld("exportFile", {
+    export: (path, dataToExport) => {
+      ipcRenderer.send("exportFile", path, dataToExport);
     },
     removeEventListener: () => {
       ipcRenderer.removeAllListeners("selected-folder");
@@ -73,6 +94,15 @@ process.once("loaded", () => {
     addData(setState, path, newData, dbName, tableName) {
       ipcRenderer.send("addData", path, newData, dbName, tableName);
       ipcRenderer.on("addDataDone", (event, data) => {
+        setState(data);
+      });
+    },
+    editData(path, newData, dbName, tableName) {
+      ipcRenderer.send("editData", path, newData, dbName, tableName);
+    },
+    deleteData(setState, path, id, dbName, tableName) {
+      ipcRenderer.send("deleteData", path, id, dbName, tableName);
+      ipcRenderer.on("deleteDataDone", (event, data) => {
         setState(data);
       });
     },
