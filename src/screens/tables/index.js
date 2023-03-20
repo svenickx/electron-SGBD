@@ -3,18 +3,23 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/header";
 import CreateTable from "../../components/modals/createTable";
 import Settings from "../../components/settings";
-import { App, BodyWrapper, BodyContent, DbView } from "../../style";
+import { App, BodyWrapper, BodyContent, DbView, ErrorText } from "../../style";
 
 const Tables = () => {
   let { db } = useParams();
   const [DB, setDB] = useState({});
   const [createWindowOpen, setCreateWindowOpen] = useState(false);
   const [loadDBdone, setLoadDBdone] = useState(false);
+  const [error, setError] = useState(null);
   const [newTableName, setNewTableName] = useState("");
   const navigate = useNavigate();
 
   const createTable = () => {
     if (newTableName === "") {
+      return;
+    }
+    if (DB.tables.some((db) => db.name === newTableName)) {
+      setError(`Impossible de créer la table, le nom existe déjà`);
       return;
     }
     window.DB.createTable(
@@ -54,10 +59,13 @@ const Tables = () => {
             DB.tables.map((t) => {
               return (
                 <DbView key={t.name}>
-                  <Link to={`/dataTable/${db}/${t.name}`}>{t.name}</Link>
+                  <Link to={`/dataTable/${db}/${t.name}`} className="link">
+                    {t.name}
+                  </Link>
                 </DbView>
               );
             })}
+          {error !== null && <ErrorText>{error}</ErrorText>}
           <div className="Db-view"></div>
         </BodyContent>
         <Settings

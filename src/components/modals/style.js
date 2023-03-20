@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ModalWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;

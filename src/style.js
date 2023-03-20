@@ -24,3 +24,10 @@ export const DbView = styled.div`
 export const TableRow = styled.tr`
   margin: 10px 0;
 `;
+
+export const ErrorText = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 0 10px 0;
+  color: red;
+`;

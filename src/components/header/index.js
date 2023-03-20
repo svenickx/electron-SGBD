@@ -1,24 +1,30 @@
 import { Link } from "react-router-dom";
-import "./header.css";
+import { AppHeader } from "./style";
 
 const Header = ({ db, table }) => {
   return (
-    <header className="App-header">
-      <Link to="/">Databases</Link>
+    <AppHeader>
+      <Link to="/" className="header-link">
+        Databases
+      </Link>
       <span>&gt;</span>
       {db && (
         <>
-          <Link to={`/tables/${db}`}>{db}</Link>
+          <Link to={`/tables/${db}`} className="header-link">
+            {db}
+          </Link>
           <span>&gt;</span>
           {table && (
             <>
-              <Link to={`/dataTable/${db}/${table}`}>{table}</Link>
+              <Link to={`/dataTable/${db}/${table}`} className="header-link">
+                {table}
+              </Link>
               <span>&gt;</span>
             </>
           )}
         </>
       )}
-    </header>
+    </AppHeader>
   );
 };
 

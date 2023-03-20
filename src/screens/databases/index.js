@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/header";
 import CreateDB from "../../components/modals/createDB";
-import "./databases.css";
 import { useNavigate } from "react-router-dom";
-import { DbName, ErrorText, Title } from "./style";
+import { DbName, DropdownTable, TablesView, Title } from "./style";
 import Settings from "../../components/settings";
-import { App, BodyWrapper, DbView, BodyContent } from "../../style";
+import { App, BodyWrapper, DbView, BodyContent, ErrorText } from "../../style";
 const uuid = require("uuid");
 
 function Databases() {
@@ -89,21 +88,30 @@ function Databases() {
             return (
               <DbView key={db.name}>
                 <DbName>
-                  <div
+                  <DropdownTable
+                    isActive={db.isVisible}
                     onClick={() => toggleTablesView(db)}
-                    className={`${
-                      db.isVisible ? "v-icon-active" : "v-icon-inactive"
-                    }`}
-                  ></div>
-                  <Link to={`/tables/${db.name}`}>{db.name}</Link>
+                  />
+                  <Link to={`/tables/${db.name}`} className="link">
+                    {db.name}
+                  </Link>
                 </DbName>
-                <div className="Tables-view">
+                <TablesView>
                   {db.isVisible &&
                     db.tables &&
                     db.tables.map((table) => {
-                      return <div key={table.name}>{table.name}</div>;
+                      return (
+                        <div key={table.name}>
+                          <Link
+                            to={`/dataTable/${db.name}/${table.name}`}
+                            className="link"
+                          >
+                            {table.name}
+                          </Link>
+                        </div>
+                      );
                     })}
-                </div>
+                </TablesView>
               </DbView>
             );
           })}

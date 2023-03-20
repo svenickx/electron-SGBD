@@ -9,4 +9,5 @@ export const TableDeleteButton = styled.button`
 export const DataWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;

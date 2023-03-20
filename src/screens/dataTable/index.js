@@ -128,7 +128,6 @@ const DataTable = () => {
       <Header db={table.dbName} table={tableName} />
       <BodyWrapper>
         <BodyContent>
-          <Title>DATA</Title>
           <Table
             data={data}
             keys={keys}

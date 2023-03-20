@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TableRow } from "../../style";
 import { HeaderContent, Resizeable, SortButton, TableHead } from "./style";
 import { FaSortAmountDownAlt, FaSortAmountUpAlt } from "react-icons/fa";
 
-const TableHeader = ({ setData, data, keys, search }) => {
+const TableHeader = ({ setData, data, keys, searchInput, setSearchInput }) => {
   const [orderedKey, setOrderedKey] = useState("");
 
   const orderData = (key) => {
@@ -36,6 +36,14 @@ const TableHeader = ({ setData, data, keys, search }) => {
               )}
             </SortButton>
           </HeaderContent>
+          <div>
+            <input
+              type="text"
+              onChange={(event) =>
+                setSearchInput({ ...searchInput, _id: event.target.value })
+              }
+            />
+          </div>
         </TableHead>
         {keys.map((k, i) => {
           if (k === "_id") {
@@ -56,7 +64,9 @@ const TableHeader = ({ setData, data, keys, search }) => {
               <div>
                 <input
                   type="text"
-                  onChange={(event) => search(k, event.target.value)}
+                  onChange={(event) =>
+                    setSearchInput({ ...searchInput, [k]: event.target.value })
+                  }
                 />
               </div>
             </TableHead>
