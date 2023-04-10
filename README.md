@@ -8,6 +8,10 @@
 - Les bases de données, les tables et les données seront stockés dans des fichiers de l'ordinateur et manipulés avec electron
 - L'interface sera fait avec react
 
+## Exemple d'utilisation
+
+https://youtu.be/cDwmHUKtxxw
+
 ## Comment utiliser le projet ?
 
 Une fois lancer, sélectionner n'importe quelle dossier. Le programme y mettra deux fichiers de conf.
